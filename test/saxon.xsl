@@ -14,7 +14,7 @@
 </xsl:template>
 
 <xsl:template match="document" mode="output">
-  <xsl:result-document href="file:/{@href}" method="{@method}">
+  <xsl:result-document href="file:///{@href}" method="{@method}">
     <xsl:if test="@dtd">
       <xsl:value-of select="@dtd" disable-output-escaping="yes"/>
     </xsl:if>
@@ -25,7 +25,7 @@
 <xsl:template match="dir" mode="output">
   <xsl:if test="ends-with(@name,'out')">
     <!-- awfull turn-around to create log directories, that are empty, but must be created for tests -->
-    <xsl:result-document href="file:/{@name}/fake.out" method="text">.</xsl:result-document>
+    <xsl:result-document href="file:///{@name}/fake.out" method="text">.</xsl:result-document>
   </xsl:if>
 </xsl:template>
 
