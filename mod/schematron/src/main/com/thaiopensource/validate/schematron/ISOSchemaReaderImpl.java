@@ -52,8 +52,8 @@ class ISOSchemaReaderImpl extends AbstractSchemaReader {
 
   private final Class<? extends SAXTransformerFactory> transformerFactoryClass;
   private final TransformerFactoryInitializer transformerFactoryInitializer;
-  private final Templates schematron;
-  private final Templates resolveInclude;
+  private final StreamSource schematron;
+  private final StreamSource resolveInclude;
   private final Schema schematronSchema;
   private static final String SCHEMATRON_SCHEMA = "iso-schematron.rnc";
   private static final String SCHEMATRON_STYLESHEET = "iso-schematron.xsl";
@@ -82,13 +82,15 @@ class ISOSchemaReaderImpl extends AbstractSchemaReader {
     final boolean isXsltc = isXsltc(transformerFactoryClass);
     final String stylesheet = isXsltc ? SCHEMATRON_XSLTC_STYLESHEET : SCHEMATRON_STYLESHEET;
     final String resourceName = fullResourceName(stylesheet);
-    final StreamSource source = new StreamSource(getResourceAsStream(resourceName));
-    initTransformerFactory(transformerFactory);
-    schematron = transformerFactory.newTemplates(source);
+    this.schematron = new StreamSource(getResourceAsStream(resourceName));
+//    final StreamSource source = new StreamSource(getResourceAsStream(resourceName));
+//    initTransformerFactory(transformerFactory);
+//    schematron = transformerFactory.newTemplates(source);
     // XSL for include resolution
     final String resolveIncludeResourceName = fullResourceName(RESOLVE_INCLUDE_STYLESHEET);
-    final StreamSource resolveIncludeSource = new StreamSource(getResourceAsStream(resolveIncludeResourceName));
-    resolveInclude = transformerFactory.newTemplates(resolveIncludeSource);
+    this.resolveInclude = new StreamSource(getResourceAsStream(resolveIncludeResourceName));
+//    final StreamSource resolveIncludeSource = new StreamSource(getResourceAsStream(resolveIncludeResourceName));
+//    resolveInclude = transformerFactory.newTemplates(resolveIncludeSource);
     InputSource schemaSource = new InputSource(getResourceAsStream(fullResourceName(SCHEMATRON_SCHEMA)));
     PropertyMapBuilder builder = new PropertyMapBuilder();
     builder.put(ValidateProperty.ERROR_HANDLER, new DraconianErrorHandler());
